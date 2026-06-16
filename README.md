@@ -54,7 +54,7 @@ This enables robust anomaly detection in **non‑stationary streaming environmen
 Clone the repository:
 
 ```bash
-git clone https://github.com/<your-username>/DASAD.git
+git clone https://github.com/nataliawojak/DASAD.git
 cd DASAD
 ```
 
