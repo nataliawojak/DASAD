@@ -1,0 +1,47 @@
+data:
+  path: data/tcm_3_anomaly4_v1.csv
+
+x_cols: ['ys0', 'ys1', 'work_roll_diam_1',
+       'work_roll_diam_2', 'work_roll_diam_3', 'work_roll_diam_4',
+       'work_roll_mileage_1', 'work_roll_mileage_2', 'work_roll_mileage_3',
+       'work_roll_mileage_4', 'reduction_1', 'reduction_2', 'reduction_3',
+       'reduction_4', 'tension_1', 'tension_2', 'tension_3', 'tension_4',
+       'tension_5', 'roll_speed_1', 'roll_speed_2', 'roll_speed_3',
+       'roll_speed_4', 'force_1', 'force_2', 'force_3', 'force_4', 'torque_1',
+       'torque_2', 'torque_3', 'torque_4', 'gap_1', 'gap_2', 'gap_3', 'gap_4',
+       'current_1', 'current_2', 'current_3', 'current_4']
+
+y_col: "class"
+
+
+detector:
+  reference_size: 4500
+  window_size: 2
+  min_instances: 1
+  delta: 0.005
+  threshold: 2500
+  alpha: 0.9999
+
+engine:
+  window_size: 50
+
+predictor:
+  adv_weight: 0.0001 
+  learning_rate: 0.0001
+  gamma: 5
+  class_balance: True
+  alpha: 0.04
+  epochs: 500
+  batch_size: 128
+  threshold: 0.5
+
+network:
+    encoder:
+        learning_rate: 0.0001
+        gamma: 8
+    task:
+        learning_rate: 0.0001
+        gamma: 8
+    discriminator:
+        learning_rate: 0.0001
+        gamma: 8
