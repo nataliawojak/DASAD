@@ -1,6 +1,6 @@
 import numpy as np
 from river.drift import PageHinkley
-from DDDA.utils import kl_divergence
+from DASAD.utils import kl_divergence
 
 class BaseDriftDetector:
     """Abstract base class for drift detector.

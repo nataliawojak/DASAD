@@ -1,6 +1,6 @@
 data:
-  path: data/tcm_3_anomaly4_v1.csv
-  name: ds1
+  path: data/tcm_33_anomaly4_v1.csv
+  name: ds3
 
 results_directory: "results"
 
@@ -15,7 +15,7 @@ y_col: "class"
 
 
 detector:
-  reference_size: 4500
+  reference_size: 10
   window_size: 2
   min_instances: 1
   delta: 0.005

@@ -1,3 +1,4 @@
+from pathlib import Path
 import numpy as np
 import pandas as pd
 from scipy.spatial import cKDTree as KDTree
@@ -71,3 +72,53 @@ def run_drift_detection(detector, df):
             drift_points.append(i)
 
     return drift_points
+
+
+def make_json_serializable(value):
+    """Convert nested experiment results to JSON-serializable objects.
+
+    The function recursively processes dictionaries, lists, tuples, NumPy
+    arrays and NumPy scalar values. Non-finite floating-point values, such as
+    NaN and infinity, are converted to None.
+
+    Args:
+        value: Object or nested collection to convert to a JSON-serializable
+            representation.
+
+    Returns:
+        JSON-serializable object containing only dictionaries, lists, strings,
+        integers, finite floats, booleans, and None.
+    """
+    if isinstance(value, dict):
+        return {
+            str(key): make_json_serializable(item)
+            for key, item in value.items()
+        }
+
+    if isinstance(value, (list, tuple)):
+        return [
+            make_json_serializable(item)
+            for item in value
+        ]
+
+    if isinstance(value, np.ndarray):
+        return make_json_serializable(value.tolist())
+
+    if isinstance(value, np.integer):
+        return int(value)
+
+    if isinstance(value, np.floating):
+        value = float(value)
+
+    if isinstance(value, float):
+        if not np.isfinite(value):
+            return None
+        return value
+
+    if isinstance(value, np.bool_):
+        return bool(value)
+
+    if isinstance(value, Path):
+        return str(value)
+
+    return value

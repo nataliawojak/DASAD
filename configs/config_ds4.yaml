@@ -1,6 +1,7 @@
 data:
-  path: data/tcm_3_anomaly4_v1.csv
-  name: ds1
+  path: data/tcm_31_anomaly4_v1.csv
+  name: ds4
+
 
 results_directory: "results"
 
@@ -19,7 +20,7 @@ detector:
   window_size: 2
   min_instances: 1
   delta: 0.005
-  threshold: 2500
+  threshold: 2800
   alpha: 0.9999
 
 engine:

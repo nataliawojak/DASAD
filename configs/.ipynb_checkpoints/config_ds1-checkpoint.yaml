@@ -1,10 +1,10 @@
 data:
   path: data/tcm_3_anomaly4_v1.csv
+  name: ds1
 
-x_cols: ['ys0', 'ys1', 'work_roll_diam_1',
-       'work_roll_diam_2', 'work_roll_diam_3', 'work_roll_diam_4',
-       'work_roll_mileage_1', 'work_roll_mileage_2', 'work_roll_mileage_3',
-       'work_roll_mileage_4', 'reduction_1', 'reduction_2', 'reduction_3',
+results_directory: "results"
+
+x_cols: ['reduction_1', 'reduction_2', 'reduction_3',
        'reduction_4', 'tension_1', 'tension_2', 'tension_3', 'tension_4',
        'tension_5', 'roll_speed_1', 'roll_speed_2', 'roll_speed_3',
        'roll_speed_4', 'force_1', 'force_2', 'force_3', 'force_4', 'torque_1',
@@ -23,25 +23,39 @@ detector:
   alpha: 0.9999
 
 engine:
+  # Fixed labeled source prefix. Labels at indices >= source_size are used
+  # exclusively for evaluation and never for training or adaptation.
+  source_size: 3000
   window_size: 50
 
 predictor:
-  adv_weight: 0.0001 
-  learning_rate: 0.0001
-  gamma: 5
+  # Domain-adversarial loss weight (lambda in DANN).
+  lambda: 0.00003
+  learning_rate: 0.0003
+  gamma: 2.0
   class_balance: True
-  alpha: 0.04
-  epochs: 500
+  alpha: 0.5
+  epochs: 120
   batch_size: 128
   threshold: 0.5
+  pretrain_epochs: 500
+  pretrain_validation_split: 0.2
+  pretrain_patience: 20
 
 network:
     encoder:
+        latent_dim: 8
         learning_rate: 0.0001
-        gamma: 8
     task:
-        learning_rate: 0.0001
-        gamma: 8
+        latent_dim: 8
+        learning_rate: 0.0003
+        gamma: 2.0
+        alpha: 0.5
     discriminator:
-        learning_rate: 0.0001
-        gamma: 8
+        latent_dim: 8
+        discriminator_learning_rate: 0.00001
+
+logging:
+  # INFO: lifecycle, shapes, ranges and parameters. DEBUG additionally prints
+  # per-feature scaler ranges and individual prediction scores.
+  level: INFO
